@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// User用户模型
+model User {
+  id        Int      @id @default(autoincrement())
+  account   String   @unique @db.VarChar(20)  // 登录账号（手机号）
+  password  String   @db.VarChar(255)         // 密码（先明文，后续加密）
+  role      Int                              // 0-商家，1-管理员，2-用户
+  isActive  Boolean  @default(true)           // 账号是否启用
+  createdAt DateTime @default(now())          // 创建时间
+
+  @@map("users")
+}
